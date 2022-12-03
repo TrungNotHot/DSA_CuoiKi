@@ -1,14 +1,52 @@
 from Space import *
 from Constants import *
-
+from pygame.locals import *
+def wait():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit()
+            if event.type == KEYDOWN and event.key == K_f:
+                return
 def DFS(g:Graph, sc:pygame.Surface):
     print('Implement DFS algorithm')
 
-    open_set = [g.start.value]
+    open_set = [g.start.value] #stack
     closed_set = []
     father = [-1]*g.get_len()
 
-    #TODO: Implement DFS algorithm using open_set, closed_set, and father
+    for indx in range(0,len(father)):
+        if len(open_set)==0: break
+        father[indx]=open_set.pop(-1)
+        while father[indx] in closed_set:
+            father[indx]=open_set.pop(-1)
+
+        if g.grid_cells[father[indx]].color not in [orange,purple]:
+            g.grid_cells[father[indx]].set_color(yellow)
+            g.draw(sc)
+
+        if g.is_goal(g.grid_cells[father[indx]]):
+            for i in range(indx):
+                pygame.draw.line(sc,green,(g.grid_cells[father[i]].x,g.grid_cells[father[i]].y),(g.grid_cells[father[i+1]].x,g.grid_cells[father[i+1]].y))
+                if g.grid_cells[father[i]].color not in [orange,purple]:
+                    g.grid_cells[father[i]].set_color(grey)
+                g.draw(sc)
+            wait()
+
+        for neighbor in g.get_neighbors(g.grid_cells[father[indx]]):
+            if neighbor.value not in closed_set:
+                open_set.append(neighbor.value) #Thứ tự ưu tiên tăng dần từ up, down, left, right, up_left, up_right, down_left, down_right
+                if neighbor.color==green:
+                    neighbor.set_color(red)
+                    g.draw(sc)
+
+        closed_set.append(father[indx])
+
+        if g.grid_cells[father[indx]].color not in [orange,purple]:
+            g.grid_cells[father[indx]].set_color(blue)
+            g.draw(sc)
+
     raise NotImplementedError('Not implemented')
 
 def BFS(g:Graph, sc:pygame.Surface):

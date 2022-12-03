@@ -1,12 +1,12 @@
-from SearchAlgorithms_sol import *
+from SearchAlgorithms import *
 import argparse
 
 def main(algo:str, start_pos:int, goal_pos:int):
     pygame.init()
-    pygame.display.set_caption(f'<your name goes here> - {algo}')
+    pygame.display.set_caption(f'<TrungNotHot> - {algo}')
     sc = pygame.display.set_mode(RES)
     clock = pygame.time.Clock()
-    sc.fill(pygame.color.Color('black'))
+    sc.fill(pygame.color.Color('Black'))
 
     g = Graph(start_pos, goal_pos)
     g.draw(sc)
@@ -14,12 +14,12 @@ def main(algo:str, start_pos:int, goal_pos:int):
 
     if algo == 'DFS':
         DFS(g, sc)
-    elif algo == 'BFS':
-        BFS(g, sc)
-    elif algo == 'UCS':
-        UCS(g, sc)
-    else:
-        raise NotImplementedError('Not implemented')
+    # elif algo == 'BFS':
+    #     BFS(g, sc)
+    # elif algo == 'UCS':
+    #     UCS(g, sc)
+    # else:
+    #     raise NotImplementedError('Not implemented')
 
     while True:
         for event in pygame.event.get():
@@ -28,7 +28,7 @@ def main(algo:str, start_pos:int, goal_pos:int):
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Search algorithms')
-    parser.add_argument('--algo', type=str, help='Enter search algorithm', default='AStar')
+    parser.add_argument('--algo', type=str, help='Enter search algorithm', default='DFS')
     parser.add_argument('--start', type=int, help='Enter start position', default=71)
     parser.add_argument('--goal', type=int, help='Enter goal position', default=318)
 
