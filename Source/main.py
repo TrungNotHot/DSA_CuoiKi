@@ -14,12 +14,12 @@ def main(algo:str, start_pos:int, goal_pos:int):
 
     if algo == 'DFS':
         DFS(g, sc)
-    # elif algo == 'BFS':
-    #     BFS(g, sc)
-    # elif algo == 'UCS':
-    #     UCS(g, sc)
-    # else:
-    #     raise NotImplementedError('Not implemented')
+    elif algo == 'BFS':
+        BFS(g, sc)
+    elif algo == 'UCS':
+        UCS(g, sc)
+    else:
+        raise NotImplementedError('Not implemented')
 
     while True:
         for event in pygame.event.get():
