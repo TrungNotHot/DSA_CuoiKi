@@ -1,6 +1,17 @@
 from Space import *
 from Constants import *
 from pygame.locals import *
+import math
+
+def findFather(g: Graph, cur: Node, father, sc: pygame.Surface):
+    if cur == g.start:
+        wait()
+    pygame.draw.line(sc, green, (cur.x, cur.y), (
+        g.grid_cells[father[cur.value]].x, g.grid_cells[father[cur.value]].y))
+    if cur.color not in [orange, purple]:
+        cur.set_color(grey)
+    g.draw(sc)
+    return findFather(g, g.grid_cells[father[cur.value]], father, sc)
 
 
 def wait():
@@ -11,6 +22,10 @@ def wait():
                 exit()
             if event.type == KEYDOWN and event.key == K_f:
                 return
+
+
+def findDistance(a:Node,b:Node):
+    return math.sqrt( (a.x-b.x)**2+(a.y-b.y)**2 )
 
 
 def DFS(g: Graph, sc: pygame.Surface):
@@ -56,17 +71,6 @@ def DFS(g: Graph, sc: pygame.Surface):
             g.draw(sc)
 
     raise NotImplementedError('Not implemented')
-
-
-def findFather(g: Graph, cur: Node, father, sc: pygame.Surface):
-    if cur == g.start:
-        wait()
-    pygame.draw.line(sc, green, (cur.x, cur.y), (
-        g.grid_cells[father[cur.value]].x, g.grid_cells[father[cur.value]].y))
-    if cur.color not in [orange, purple]:
-        cur.set_color(grey)
-    g.draw(sc)
-    return findFather(g, g.grid_cells[father[cur.value]], father, sc)
 
 
 def BFS(g: Graph, sc: pygame.Surface):
@@ -119,4 +123,34 @@ def UCS(g: Graph, sc: pygame.Surface):
     cost = [100_000]*g.get_len()
     cost[g.start.value] = 0
 
+
+    for indx in range(0, len(father)):
+        if (len(open_set) == 0):
+            break
+        current = min(open_set, key=open_set.get)
+        open_set.pop(current)
+
+        if g.grid_cells[current].color not in [orange, purple]:
+            g.grid_cells[current].set_color(yellow)
+            g.draw(sc)
+
+        if g.is_goal(g.grid_cells[current]):
+            findFather(g, g.grid_cells[current], father, sc)
+
+        for neighbor in g.get_neighbors(g.grid_cells[current]):
+            if neighbor.value not in closed_set:
+                distance=findDistance(neighbor,g.grid_cells[current])
+                if cost[current]+distance<cost[neighbor.value]:
+                    cost[neighbor.value]=cost[current]+distance
+                    open_set[neighbor.value]=cost[neighbor.value]
+                    father[neighbor.value] = current
+                if neighbor.color==green:
+                    neighbor.set_color(red)
+                    g.draw(sc)
+
+        closed_set.append(current)
+
+        if g.grid_cells[current].color not in [orange, purple]:
+            g.grid_cells[current].set_color(blue)
+            g.draw(sc)
     raise NotImplementedError('Not implemented')

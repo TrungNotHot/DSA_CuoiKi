@@ -31,7 +31,7 @@ def main(algo: str, start_pos: int, goal_pos: int):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Search algorithms')
     parser.add_argument('--algo', type=str,
-                        help='Enter search algorithm', default='BFS')
+                        help='Enter search algorithm', default='UCS')
     parser.add_argument('--start', type=int,
                         help='Enter start position', default=71)
     parser.add_argument('--goal', type=int,
