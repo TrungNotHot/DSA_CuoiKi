@@ -4,7 +4,7 @@ import argparse
 
 def main(algo: str, start_pos: int, goal_pos: int):
     pygame.init()
-    pygame.display.set_caption(f'<TrungNotHot> - {algo}')
+    pygame.display.set_caption(f'<21280115_21280085> - {algo}')
     sc = pygame.display.set_mode(RES)
     clock = pygame.time.Clock()
     sc.fill(pygame.color.Color('Black'))
@@ -31,7 +31,7 @@ def main(algo: str, start_pos: int, goal_pos: int):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Search algorithms')
     parser.add_argument('--algo', type=str,
-                        help='Enter search algorithm', default='UCS')
+                        help='Enter search algorithm', default='DFS')
     parser.add_argument('--start', type=int,
                         help='Enter start position', default=71)
     parser.add_argument('--goal', type=int,
